@@ -3,6 +3,7 @@ package com.codepath.apps.twootter;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
 
+    private SwipeRefreshLayout swipeContainer;
+
     TwootterClient client;
     RecyclerView rvTweets;
     List<Tweet> tweets;
@@ -33,6 +36,24 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeline);
 
         client = TwootterApp.getRestClient(this);
+
+        swipeContainer = findViewById(R.id.swipeContainer);
+
+        swipeContainer.setColorSchemeResources(
+                android.R.color.holo_blue_bright,
+                android.R.color.holo_blue_dark,
+                android.R.color.holo_blue_light
+        );
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "fetching new data!");
+                populateHomeTimeline();
+            }
+        });
+
+
 
         // Find the recycler view
         rvTweets = findViewById(R.id.rvTweets);
@@ -52,8 +73,12 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG, "onSuccess! " + json.toString());
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    adapter.clear();
+                    adapter.addAll(Tweet.fromJsonArray(jsonArray));
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
+                    // Now we call setRefreshing(false) to signal refresh has finished
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG, "Json exception", e);
                     e.printStackTrace();

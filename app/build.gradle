@@ -30,7 +30,7 @@ android {
     // Related to https://github.com/scribejava/scribejava/issues/480
     // Scribe expects Java 7 or this custom Apache library
     lintOptions {
-        lintConfig rootProject.file('gradle/lint.xml')
+        lintConfig rootProject.file('gradle/lint.themes')
     }
 
     buildTypes {
@@ -56,4 +56,6 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
 }

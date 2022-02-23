@@ -13,6 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="0sp"
         android:layout_marginTop="0sp"
+        android:adjustViewBounds="false"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
@@ -22,7 +23,9 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5sp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        android:text="Brandt Ziegler" />
+        android:text="Brandt Ziegler"
+        android:textColor="@color/twitter_dark_gray"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tvBody"
