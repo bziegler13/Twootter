@@ -51,7 +51,6 @@ public class TwootterClient extends OAuthBaseClient {
 		RequestParams params = new RequestParams();
 		params.put("count", 10);
 		params.put("since_id", 1);
-		Log.i("REQUEST", apiUrl + params.toString());
 		client.get(apiUrl, params, handler);
 	}
 
